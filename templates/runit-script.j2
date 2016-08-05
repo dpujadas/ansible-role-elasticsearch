@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Activate the Ubuntu Elasticsearch environment
+. {{ elasticsearch_defaults_file }}
+
+exec 2>&1
+exec \
+setuser ${ES_USER} ${ES_HOME}/bin/elasticsearch --default.path.conf=${CONF_DIR} --default.path.logs=${LOG_DIR} --default.path.data=${DATA_DIR}

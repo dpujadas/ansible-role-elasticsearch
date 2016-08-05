@@ -1,0 +1,21 @@
+---
+- hosts: travis
+  connection: docker
+  remote_user: root
+  vars:
+    elasticsearch_default_options:
+      ES_STARTUP_SLEEP_TIME: '5'
+    elasticsearch_cluster_name: 'travis-test'
+    elasticsearch_config:
+      node:
+        name: 'travis-docker'
+      network:
+        host: '0.0.0.0'
+    elasticsearch_plugins:
+      - name: 'head'
+        path: 'mobz/elasticsearch-head'
+  roles:
+    - {
+      role: ansible-role-elasticsearch,
+      elasticsearch_init_system: 'runit'
+    }

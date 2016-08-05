@@ -1,0 +1,6 @@
+---
+# vars file for elasticsearch
+
+elasticsearch_home_dir: '/usr/share/elasticsearch'
+elasticsearch_conf_dir: '/etc/elasticsearch'
+elasticsearch_defaults_file: '/etc/default/elasticsearch'

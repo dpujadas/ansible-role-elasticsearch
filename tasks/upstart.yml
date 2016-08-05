@@ -1,0 +1,5 @@
+- name: Ensure elasticsearch is started and enabled at boot
+  service:
+    name: 'elasticsearch'
+    state: 'started'
+    enabled: 'yes'

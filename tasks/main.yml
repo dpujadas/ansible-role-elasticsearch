@@ -1,0 +1,94 @@
+---
+# tasks file for elasticsearch
+
+- name: Add elasticsearch apt key
+  apt_key:
+    url: 'https://packages.elastic.co/GPG-KEY-elasticsearch'
+    state: present
+  tags:
+    - elasticsearch
+
+- name: Add elasticsearch repo
+  apt_repository:
+    repo: 'deb https://packages.elastic.co/elasticsearch/{{ elasticsearch_major_version }}.x/debian stable main'
+    state: 'present'
+    update_cache: 'yes'
+  tags:
+    - elasticsearch
+
+- name: Prevent elasticsearch to start on install
+  copy:
+    content: |-
+      #!/bin/sh
+      exit 101
+    dest: '/usr/sbin/policy-rc.d'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  changed_when: False
+  tags:
+    - elasticsearch
+
+- name: Install elasticsearch package
+  apt:
+    name: 'elasticsearch'
+    state: 'present'
+  tags:
+    - elasticsearch
+
+- name: Remove policy-rc.d
+  file:
+    name: '/usr/sbin/policy-rc.d'
+    state: 'absent'
+  changed_when: False
+  tags:
+    - elasticsearch
+
+- name: Set elasticsearch defaults
+  template:
+    src: 'elasticsearch.j2'
+    dest: '{{ elasticsearch_defaults_file }}'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify: restart elasticsearch
+  tags:
+    - elasticsearch
+    - debug
+
+- name: Configure elasticsearch
+  template:
+    src: 'elasticsearch.yml.j2'
+    dest: '{{ elasticsearch_conf_dir }}/elasticsearch.yml'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify: restart elasticsearch
+  tags:
+    - elasticsearch
+
+- name: Get installed plugins list
+  shell: >
+    bin/plugin list
+  args:
+    chdir: '{{ elasticsearch_home_dir }}'
+  changed_when: false
+  register: elasticsearch_installed_plugins
+  tags:
+    - elasticsearch
+
+- name: Install plugins
+  shell: >
+    bin/plugin install {{ item.path }}
+  args:
+    chdir: '{{ elasticsearch_home_dir }}'
+  with_items: '{{ elasticsearch_plugins }}'
+  when: "'- {{ item.name }}' not in elasticsearch_installed_plugins.stdout"
+  notify: restart elasticsearch
+  tags:
+    - elasticsearch
+
+- include: '{{ elasticsearch_init_system }}.yml'
+  tags:
+    - elasticsearch
+    - debug

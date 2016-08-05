@@ -1,0 +1,6 @@
+---
+# defaults file for elasticsearch
+
+elasticsearch_major_version: '2'
+elasticsearch_config: {}
+elasticsearch_init_system: 'upstart'

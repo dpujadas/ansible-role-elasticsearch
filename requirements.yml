@@ -1,0 +1,5 @@
+## Just for travis testing, dependencies are managed by meta/main.yml
+# Java
+- src: https://github.com/dpujadas/ansible-role-java.git
+  version: master
+  name: java

@@ -1,0 +1,8 @@
+{% if elasticsearch_config['cluster.name'] is not defined %}
+cluster.name: {{ elasticsearch_cluster_name }}
+{% endif %}
+
+{% if elasticsearch_config %}
+{{ elasticsearch_config | to_nice_yaml }}
+{% endif %}
+

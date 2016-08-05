@@ -1,0 +1,30 @@
+---
+# handlers file for elasticsearch
+
+- name: restart elasticsearch
+  shell: >
+    /bin/true
+  notify: 'restart elasticsearch {{ elasticsearch_init_system }}'
+
+- name: restart elasticsearch upstart
+  service:
+    name: 'elasticsearch'
+    state: 'restarted'
+
+- name: restart elasticsearch runit
+  shell: >
+    sleep 5 && sv restart elasticsearch
+
+- name: reload elasticsearch
+  shell: >
+    /bin/true
+  notify: 'reload elasticsearch {{ elasticsearch_init_system }}'
+
+- name: reload elasticsearch upstart
+  service:
+    name: 'elasticsearch'
+    state: 'reloaded'
+
+- name: reload elasticsearch runit
+  shell: >
+    sleep 5 && sv reload elasticsearch

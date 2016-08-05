@@ -1,0 +1,18 @@
+{% if elasticsearch_default_options['ES_USER'] is not defined %}
+ES_USER=elasticsearch
+{% endif %}
+{% if elasticsearch_default_options['ES_HOME'] is not defined %}
+ES_HOME={{ elasticsearch_home_dir }}
+{% endif %}
+{% if elasticsearch_default_options['LOG_DIR'] is not defined %}
+LOG_DIR=/var/log/elasticsearch
+{% endif %}
+{% if elasticsearch_default_options['DATA_DIR'] is not defined %}
+DATA_DIR=/var/lib/elasticsearch
+{% endif %}
+{% if elasticsearch_default_options['CONF_DIR'] is not defined %}
+CONF_DIR={{ elasticsearch_conf_dir }}
+{% endif %}
+{% for key, value in elasticsearch_default_options.iteritems() -%}
+{{ key }}={{ value }}
+{% endfor %}

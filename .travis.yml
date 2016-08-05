@@ -9,7 +9,7 @@ before_install:
 
 install:
   - pip install ansible
-  - apt-get install jq
+  - sudo apt-get install jq
   - printf "[defaults]\nroles_path = ../" > ansible.cfg
   - ansible-galaxy install -r requirements.yml
   - docker run --name travis -d dpujadas/baseimage:python2

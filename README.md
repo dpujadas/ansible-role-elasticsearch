@@ -7,7 +7,10 @@ Role Variables
 --------------
 
 - `elasticsearch_major_version`: ElasticSearch major version to install (default: '2')
+- `elasticsearch_default_options`: Dict with ElasticSearch system defaults (default: '{}')
+- `elasticsearch_cluster_name`: Cluster name (Ex: 'test-cluster')
 - `elasticsearch_config`: Dict with ElasticSearch config (default: '{}')
+- `elasticsearch_plugins`: List of ElasticSearch plugins to install (default: [])
 - `elasticsearch_init_system`: OS init system. Docker phusion/baseimage uses 'runit'. (default 'upstart')
 
 Dependencies
@@ -33,7 +36,7 @@ Example Playbook
             path: 'mobz/elasticsearch-head'
       roles:
         - {
-          role: ansible-role-elasticsearch
+          role: elasticsearch
         }
 
 License

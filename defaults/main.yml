@@ -3,4 +3,6 @@
 
 elasticsearch_major_version: '2'
 elasticsearch_config: {}
+elasticsearch_default_options: {}
+elasticsearch_plugins: []
 elasticsearch_init_system: 'upstart'

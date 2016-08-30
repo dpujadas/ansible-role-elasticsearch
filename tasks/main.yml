@@ -91,4 +91,3 @@
 - include: '{{ elasticsearch_init_system }}.yml'
   tags:
     - elasticsearch
-    - debug
